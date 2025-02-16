@@ -82,7 +82,7 @@ async def create_page_in_wikijs(title: str, content: str, description: str):
         response = await client.post(
             settings.API_URL,
             headers=headers,
-            json={"query": query, "variables": variables}
+            json={"query": query, "variables": variables},
         )
 
     if response.status_code == 200:
@@ -120,6 +120,7 @@ def execution_time(func):
             f"Function {func.__name__} finished. Execution time: {formatted_time}."
         )
         return result
+
     return wrapper
 
 
@@ -149,4 +150,6 @@ async def process_text_directory(base_dir: str):
                 content = f.read()
 
             title = sanitized_base
-            await create_page_in_wikijs(title=title, content=content, description=folder_name)
+            await create_page_in_wikijs(
+                title=title, content=content, description=folder_name
+            )
