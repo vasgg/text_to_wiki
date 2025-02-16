@@ -1,0 +1,9 @@
+[project]
+name = "wikijs"
+version = "0.1.0"
+description = "Script for adding texts to wikijs"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic-settings>=2.7.1",
+]
