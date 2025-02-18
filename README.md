@@ -1,12 +1,12 @@
-- клонируем репозиторий
-- переименовываем файл **.env.example** в **.env**
-- запускаем команду `uv sync`
-- запускаем команду `docker compose up -d`
-- в браузере заходим на адрес http://127.0.0.1/
-- создаём аккаунт и устанавливаем приложение
-- заходим в созданный аккаунт
-- в настройках **сайт/язык** скачиваем и устанавливаем локаль **"ru"**
-- в настройках **система/доступ к апи** включаем апи и создаём ключ
-- этот ключ вписываем в **.env** файл в поле **WIKI_TOKEN**
-- в папку **text** помещаем папки с текстовыми файлами. Статьи будут разбиты на категории по этим папкам.
-- запускаем скрипт командой `uv run main.py`
+- Clone the repository
+- Rename the file **.env.example** to **.env**
+- Run the command `uv sync`
+- Run the command `docker compose up -d`
+- In the browser, go to http://127.0.0.1/
+- Create an account and install the application
+- Log in to the created account
+- In the settings under **site/language**, download and install the **"ru"** locale
+- In the settings under **system/api access**, enable the API and create a key
+- Enter this key in the **.env** file in the **WIKI_TOKEN** field
+- Place folders with text files into the **text** folder. Articles will be categorized based on these folders.
+- Run the script using the command `uv run main.py`
