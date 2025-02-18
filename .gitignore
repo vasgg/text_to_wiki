@@ -253,3 +253,5 @@ photos/
 __pycache__
 .idea
 *.egg-info
+
+counter.txt

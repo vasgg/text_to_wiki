@@ -9,6 +9,23 @@ import httpx
 from config import settings
 
 
+def get_current_counter():
+    if not os.path.exists(settings.COUNTER_FILE):
+        return settings.DEFAULT_START
+
+    with open(settings.COUNTER_FILE, encoding="utf-8") as f:
+        content = f.read().strip()
+        if content.isdigit():
+            return int(content)
+        else:
+            return settings.DEFAULT_START
+
+
+def save_counter(new_value):
+    with open(settings.COUNTER_FILE, "w", encoding="utf-8") as f:
+        f.write(str(new_value))
+
+
 def sanitize_filename(raw_name: str) -> str:
     name = raw_name.replace(" ", "-").replace(".", "-")
     name = re.sub(r"[^а-яА-Яa-zA-Z0-9\-_]+", "", name)
@@ -17,7 +34,9 @@ def sanitize_filename(raw_name: str) -> str:
     return name
 
 
-async def create_page_in_wikijs(title: str, content: str, description: str):
+async def create_page_in_wikijs(
+    title: str, content: str, description: str, id_counter: int
+):
     logging.getLogger("httpx").setLevel(logging.WARNING)
     query = """
     mutation (
@@ -68,7 +87,7 @@ async def create_page_in_wikijs(title: str, content: str, description: str):
         "isPublished": True,
         "isPrivate": False,
         "locale": "ru",
-        "path": f"/{description}/{title}",
+        "path": f"/{description}/{id_counter}",
         "title": title,
         "tags": [],
     }
@@ -126,6 +145,7 @@ def execution_time(func):
 
 @execution_time
 async def process_text_directory(base_dir: str):
+    current_counter = get_current_counter()
     for root, dirs, files in os.walk(base_dir):
         if root == base_dir:
             continue
@@ -151,5 +171,10 @@ async def process_text_directory(base_dir: str):
 
             title = sanitized_base
             await create_page_in_wikijs(
-                title=title, content=content, description=folder_name
+                title=title,
+                content=content,
+                description=folder_name,
+                id_counter=current_counter,
             )
+            current_counter += 1
+    save_counter(current_counter)

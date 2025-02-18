@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     API_URL: str
     WIKI_TOKEN: SecretStr
     FOLDER_NAME: str = "text"
+    COUNTER_FILE: str = "counter.txt"
+    DEFAULT_START: int = 100001
 
     model_config = assign_config_dict()
 
